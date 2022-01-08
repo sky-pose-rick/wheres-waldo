@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
 function Timer() {
-  const [start, setStart] = useState(new Date());
+  const [start] = useState(new Date());
   const [now, setNow] = useState(new Date());
   useEffect(() => {
     const interval = setInterval(() => {

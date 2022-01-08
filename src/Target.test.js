@@ -22,13 +22,10 @@ describe('', () => {
     },
   ];
 
-  const xOffset = 130;
-  const yOffset = 140;
-
   const onSelect = jest.fn((arg) => arg);
 
   beforeEach(() => {
-    render(<Target chars={chars} xOffset={xOffset} yOffset={yOffset} onSelect={onSelect} />);
+    render(<Target chars={chars} onSelect={onSelect} />);
   });
 
   it('renders list elements', () => {
