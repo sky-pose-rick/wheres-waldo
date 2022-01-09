@@ -30,8 +30,17 @@ describe('interact with game', () => {
   });
 
   beforeEach(async () => {
-    gameLogic.loadCharacters.mockImplementation(() => Promise.resolve(getChars()));
+    gameLogic.loadResources.mockImplementation((levelKey) => Promise.resolve({
+      characters: getChars(),
+      imageSrc: 'test.jpg',
+    }));
+    gameLogic.checkTarget.mockImplementation((levelKey, targetKey, x, y) => Promise.resolve(true));
     await act(async () => render(<Game />));
+  });
+
+  it('loads the proper image', () => {
+    const img = screen.getAllByRole('img')[0];
+    expect(img.src).toMatch(/test.jpg/);
   });
 
   it('show target on first click', () => {
@@ -50,7 +59,6 @@ describe('interact with game', () => {
   });
 
   it('call handler when choosing target', async () => {
-    gameLogic.checkTarget.mockImplementation((key, x, y) => Promise.resolve(true));
     const img = screen.getAllByRole('img')[0];
     fireEvent.click(img);
     const button2 = screen.getAllByRole('button')[1];
@@ -60,7 +68,6 @@ describe('interact with game', () => {
   });
 
   it('number of targets reduced after correct guess', async () => {
-    gameLogic.checkTarget.mockImplementation((key, x, y) => Promise.resolve(true));
     const img = screen.getAllByRole('img')[0];
     fireEvent.click(img);
     const button2 = screen.getAllByRole('button')[1];
@@ -74,7 +81,6 @@ describe('interact with game', () => {
   });
 
   it('marker appears when character is found', async () => {
-    gameLogic.checkTarget.mockImplementation((key, x, y) => Promise.resolve(true));
     const img = screen.getAllByRole('img')[0];
     fireEvent.click(img);
     const button2 = screen.getAllByRole('button')[1];

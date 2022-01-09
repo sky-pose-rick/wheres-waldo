@@ -1,9 +1,9 @@
-function checkTarget(key, x, y) {
+function checkTarget(levelKey, targetKey, x, y) {
   return Promise.resolve(false);
 }
 
-function loadCharacters() {
+function loadResources(levelKey) {
   return Promise.resolve({});
 }
 
-export default { checkTarget, loadCharacters };
+export default { checkTarget, loadResources };

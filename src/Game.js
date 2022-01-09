@@ -14,6 +14,7 @@ function Game() {
   const [characters, setCharacters] = useState({});
   const [timerStart, setTimerStart] = useState(false);
   const [markers, setMarkers] = useState([]);
+  const [imageSrc, setImageSrc] = useState('');
 
   const onClick = (e) => {
     if (!targetOpen) {
@@ -32,12 +33,12 @@ function Game() {
   };
 
   useEffect(() => {
-    gameLogic.loadCharacters().then((result) => {
-      setCharacters(result);
+    gameLogic.loadResources().then((result) => {
+      setCharacters(result.characters);
+      setImageSrc(result.imageSrc);
       setTimerStart(true);
     });
   }, []);
-  const src = '/wheres-waldo/test-img/sylveon.jpg';
 
   const onTargetSelect = (key) => {
     // returns a promise
@@ -65,7 +66,7 @@ function Game() {
         {
           markers.map((value) => (<Marker pos={value} key={value.key} />))
         }
-        <img src={src} alt="" onClick={onClick} />
+        <img src={imageSrc} alt="" onClick={onClick} />
         { /* should only render target box and markers after a click */ }
       </div>
       <Characters chars={characters} />
