@@ -27,3 +27,5 @@ src/firebaseConfig.js
 
 #local testing files
 public/test-img
+firebase.json
+.firebaserc
