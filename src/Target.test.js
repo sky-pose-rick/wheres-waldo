@@ -7,20 +7,11 @@ it('renders without crash', () => {
 });
 
 describe('', () => {
-  const chars = [
-    {
-      key: 'char-1',
-      label: 'item-1',
-    },
-    {
-      key: 'char-2',
-      label: 'item-2',
-    },
-    {
-      key: 'char-3',
-      label: 'item-3',
-    },
-  ];
+  const chars = {
+    'char-1': { label: 'item-1' },
+    'char-2': { label: 'item-2' },
+    'char-3': { label: 'item-3' },
+  };
 
   const onSelect = jest.fn((arg) => arg);
 
@@ -37,4 +28,15 @@ describe('', () => {
     fireEvent.click(button);
     expect(onSelect.mock.calls[0][0]).toEqual('char-2');
   });
+});
+
+it('do not display targets that are found', () => {
+  const chars = {
+    'char-1': { label: 'item-1', found: true },
+    'char-2': { label: 'item-2' },
+    'char-3': { label: 'item-3', found: true },
+  };
+
+  render(<Target chars={chars} />);
+  expect(screen.getAllByRole('button').length).toBe(1);
 });

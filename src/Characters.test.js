@@ -7,26 +7,23 @@ it('renders without crash', () => {
 });
 
 describe('', () => {
-  const chars = [
-    {
-      key: 'char-1',
+  const chars = {
+    'char-1': {
       label: 'item-1',
-      src: 'one.png',
-      found: false,
-    },
-    {
-      key: 'char-2',
-      label: 'item-2',
       src: 'one.png',
       found: true,
     },
-    {
-      key: 'char-3',
-      label: 'item-3',
-      src: 'one.png',
+    'char-2': {
+      label: 'item-2',
+      src: 'two.png',
       found: false,
     },
-  ];
+    'char-3': {
+      label: 'item-3',
+      src: 'three.png',
+      found: false,
+    },
+  };
 
   beforeEach(() => {
     render(<Characters chars={chars} />);
@@ -39,4 +36,6 @@ describe('', () => {
   it('has image icons', () => {
     screen.getAllByRole('img');
   });
+
+  it.todo('different appearance for found items');
 });

@@ -5,26 +5,28 @@ import './Target.css';
 
 function Target(props) {
   const {
-    chars, xOffset, yOffset, onSelect,
+    chars, pos, onSelect,
   } = props;
 
   // validate data when using in-line styles
-  const style = { top: yOffset || 0, left: xOffset || 0 };
+  const style = { top: pos.y || 0, left: pos.x || 0 };
+
+  const targetsToShow = Object.entries(chars).filter((entry) => !entry[1].found);
 
   return (
     <div className="Target">
       <div className="TargetRelative" style={style}>
         <div className="TargetBox" />
         <ul>
-          {chars.map((char) => (
-            <li key={char.key}>
+          {targetsToShow.map((entry) => (
+            <li key={entry[0]}>
               <button
                 type="button"
                 onClick={() => {
-                  onSelect(char.key);
+                  onSelect(entry[0]);
                 }}
               >
-                {char.label}
+                {entry[1].label}
               </button>
             </li>
           ))}
@@ -35,16 +37,14 @@ function Target(props) {
 }
 
 Target.propTypes = {
-  chars: PropTypes.arrayOf(Object),
-  xOffset: PropTypes.number,
-  yOffset: PropTypes.number,
+  chars: PropTypes.objectOf(PropTypes.shape({ label: PropTypes.string, found: PropTypes.bool })),
+  pos: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
   onSelect: PropTypes.func,
 };
 
 Target.defaultProps = {
-  chars: [],
-  xOffset: 0,
-  yOffset: 0,
+  chars: {},
+  pos: { x: 0, y: 0 },
   onSelect: null,
 };
 

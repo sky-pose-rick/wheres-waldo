@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Target({ chars }) {
+  const entryArray = Object.entries(chars);
+
   return (
     <div className="Characters">
       <ul>
-        {chars.map((char) => (
-          <li key={char.key}>
-            <img src={char.src} alt="" />
-            <span>{char.label}</span>
+        {entryArray.map((entry) => (
+          <li key={entry[0]} className={entry[1].found ? 'found' : ''}>
+            <img src={entry[1].src} alt="" />
+            <span>{entry[1].label}</span>
           </li>
         ))}
       </ul>
@@ -17,11 +19,15 @@ function Target({ chars }) {
 }
 
 Target.propTypes = {
-  chars: PropTypes.arrayOf(Object),
+  chars: PropTypes.objectOf(PropTypes.shape({
+    label: PropTypes.string,
+    found: PropTypes.bool,
+    src: PropTypes.string,
+  })),
 };
 
 Target.defaultProps = {
-  chars: [],
+  chars: {},
 };
 
 export default Target;
