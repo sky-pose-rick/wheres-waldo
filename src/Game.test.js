@@ -28,14 +28,18 @@ describe('interact with game', () => {
       found: false,
     },
   });
+  let checkTarget;
 
   beforeEach(async () => {
+    checkTarget = jest.fn((targetKey, mouse) => Promise.resolve(true));
     gameLogic.loadResources.mockImplementation((levelKey) => Promise.resolve({
       characters: getChars(),
       imageSrc: 'test.jpg',
+      gameManager: {
+        checkTarget,
+      },
     }));
-    gameLogic.checkTarget.mockImplementation((levelKey, targetKey, x, y) => Promise.resolve(true));
-    await act(async () => render(<Game />));
+    await act(async () => render(<Game levelKey="fake key" />));
   });
 
   it('loads the proper image', () => {
@@ -64,7 +68,7 @@ describe('interact with game', () => {
     const button2 = screen.getAllByRole('button')[1];
     await act(async () => fireEvent.click(button2));
 
-    expect(gameLogic.checkTarget).toHaveBeenCalled();
+    expect(checkTarget).toHaveBeenCalled();
   });
 
   it('number of targets reduced after correct guess', async () => {

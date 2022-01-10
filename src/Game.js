@@ -2,19 +2,21 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 
+import propTypes from 'prop-types';
 import Timer from './components/Timer';
 import Target from './Target';
 import Marker from './Marker';
 import Characters from './Characters';
 import gameLogic from './gameLogic';
 
-function Game() {
+function Game({ levelKey }) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [targetOpen, setTargetOpen] = useState(false);
   const [characters, setCharacters] = useState({});
   const [timerStart, setTimerStart] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [imageSrc, setImageSrc] = useState('');
+  const [gameManager, setGameManager] = useState({});
 
   const onClick = (e) => {
     if (!targetOpen) {
@@ -33,16 +35,17 @@ function Game() {
   };
 
   useEffect(() => {
-    gameLogic.loadResources().then((result) => {
+    gameLogic.loadResources(levelKey).then((result) => {
       setCharacters(result.characters);
       setImageSrc(result.imageSrc);
+      setGameManager(result.gameManager);
       setTimerStart(true);
     });
   }, []);
 
   const onTargetSelect = (key) => {
     // returns a promise
-    gameLogic.checkTarget(key, mouse).then((result) => {
+    gameManager.checkTarget(key, mouse).then((result) => {
       const copy = { ...characters };
       copy[key].found = true;
       setCharacters(copy);
@@ -73,5 +76,9 @@ function Game() {
     </div>
   );
 }
+
+Game.propTypes = {
+  levelKey: propTypes.string.isRequired,
+};
 
 export default Game;
