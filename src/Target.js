@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 import './Target.css';
 
@@ -37,9 +37,9 @@ function Target(props) {
 }
 
 Target.propTypes = {
-  chars: PropTypes.objectOf(PropTypes.shape({ label: PropTypes.string, found: PropTypes.bool })),
-  pos: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-  onSelect: PropTypes.func,
+  chars: propTypes.objectOf(propTypes.shape({ label: propTypes.string, found: propTypes.bool })),
+  pos: propTypes.shape({ x: propTypes.number, y: propTypes.number }),
+  onSelect: propTypes.func,
 };
 
 Target.defaultProps = {

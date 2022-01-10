@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 function Target({ chars }) {
   const entryArray = Object.entries(chars);
@@ -19,10 +19,10 @@ function Target({ chars }) {
 }
 
 Target.propTypes = {
-  chars: PropTypes.objectOf(PropTypes.shape({
-    label: PropTypes.string,
-    found: PropTypes.bool,
-    src: PropTypes.string,
+  chars: propTypes.objectOf(propTypes.shape({
+    label: propTypes.string,
+    found: propTypes.bool,
+    src: propTypes.string,
   })),
 };
 

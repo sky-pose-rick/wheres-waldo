@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 function Target({ pos }) {
   const style = { top: pos.y || 0, left: pos.x || 0 };
@@ -10,9 +10,9 @@ function Target({ pos }) {
 }
 
 Target.propTypes = {
-  pos: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
+  pos: propTypes.shape({
+    x: propTypes.number.isRequired,
+    y: propTypes.number.isRequired,
   }).isRequired,
 };
 
