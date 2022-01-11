@@ -48,7 +48,7 @@ async function loadResources(levelKey) {
   const uiCharacters = {};
 
   // probably could do a concurrent access, but leave it sequential
-  const imageDoc = doc(db, levelKey);
+  const imageDoc = doc(db, 'levels', levelKey);
   const imageData = await getDoc(imageDoc);
 
   const querySnapshot = await getDocs(collection(imageDoc, 'data'));

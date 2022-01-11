@@ -47,17 +47,17 @@ function Game({ levelKey }) {
 
   const onTargetSelect = (key) => {
     // returns a promise
-    gameManager.checkTarget(key, mouse).then((result) => {
+    gameManager.checkTarget(key, mouse).then((correct) => {
       setTargetOpen(false);
-      setLastGuess({ correct: result, timestamp: Date.now() });
-      if (result) {
+      setLastGuess({ correct, timestamp: Date.now() });
+      if (correct) {
         setMarkers(markers.concat({ ...mouse, key }));
         const copy = { ...characters };
         copy[key].found = true;
         setCharacters(copy);
       }
-      gameManager.isGameOver().then((result) => {
-        if (result) { alert('game is won'); }
+      gameManager.isGameOver().then((gameOver) => {
+        if (gameOver) { alert('game is won'); }
       });
     });
   };
