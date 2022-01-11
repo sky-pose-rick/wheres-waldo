@@ -37,6 +37,7 @@ describe('interact with game', () => {
       imageSrc: 'test.jpg',
       gameManager: {
         checkTarget,
+        isGameOver: jest.fn().mockResolvedValue(false),
       },
     }));
     await act(async () => render(<Game levelKey="fake key" />));
@@ -84,13 +85,14 @@ describe('interact with game', () => {
     expect(screen.queryAllByRole('button').length).toBe(2);
   });
 
-  it('marker appears when character is found', async () => {
+  it('marker and indicator appear when character is found', async () => {
     const img = screen.getAllByRole('img')[0];
     fireEvent.click(img);
     const button2 = screen.getAllByRole('button')[1];
     await act(async () => fireEvent.click(button2));
 
     screen.getByTestId(/marker/i);
+    screen.getByText(/hit/i);
   });
 
   // do not test timer because time does not increase in this component

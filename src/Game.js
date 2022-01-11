@@ -7,6 +7,7 @@ import Timer from './components/Timer';
 import Target from './Target';
 import Marker from './Marker';
 import Characters from './Characters';
+import Indicator from './Indicator';
 import gameLogic from './gameLogic';
 
 function Game({ levelKey }) {
@@ -17,6 +18,7 @@ function Game({ levelKey }) {
   const [markers, setMarkers] = useState([]);
   const [imageSrc, setImageSrc] = useState('');
   const [gameManager, setGameManager] = useState({});
+  const [lastGuess, setLastGuess] = useState({});
 
   const onClick = (e) => {
     if (!targetOpen) {
@@ -46,11 +48,17 @@ function Game({ levelKey }) {
   const onTargetSelect = (key) => {
     // returns a promise
     gameManager.checkTarget(key, mouse).then((result) => {
-      const copy = { ...characters };
-      copy[key].found = true;
-      setCharacters(copy);
       setTargetOpen(false);
-      if (result) { setMarkers(markers.concat({ ...mouse, key })); }
+      setLastGuess({ correct: result, timestamp: Date.now() });
+      if (result) {
+        setMarkers(markers.concat({ ...mouse, key }));
+        const copy = { ...characters };
+        copy[key].found = true;
+        setCharacters(copy);
+      }
+      gameManager.isGameOver().then((result) => {
+        if (result) { alert('game is won'); }
+      });
     });
   };
 
@@ -72,6 +80,7 @@ function Game({ levelKey }) {
         <img src={imageSrc} alt="" onClick={onClick} />
         { /* should only render target box and markers after a click */ }
       </div>
+      <Indicator lastGuess={lastGuess} />
       <Characters chars={characters} />
     </div>
   );
