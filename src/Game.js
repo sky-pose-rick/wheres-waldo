@@ -16,7 +16,7 @@ function Game({ levelKey }) {
   const [characters, setCharacters] = useState({});
   const [timerStart, setTimerStart] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [imageSrc, setImageSrc] = useState('');
+  const [imageData, setImageData] = useState({});
   const [gameManager, setGameManager] = useState({});
   const [lastGuess, setLastGuess] = useState({});
 
@@ -39,7 +39,7 @@ function Game({ levelKey }) {
   useEffect(() => {
     gameLogic.loadResources(levelKey).then((result) => {
       setCharacters(result.characters);
-      setImageSrc(result.imageSrc);
+      setImageData(result.imageData);
       setGameManager(result.gameManager);
       setTimerStart(true);
     });
@@ -77,7 +77,7 @@ function Game({ levelKey }) {
         {
           markers.map((value) => (<Marker pos={value} key={value.key} />))
         }
-        <img src={imageSrc} alt="" onClick={onClick} />
+        <img src={imageData.imageSrc} alt="" onClick={onClick} style={{ width: `${imageData.srcWidth * imageData.scale}px` }} />
         { /* should only render target box and markers after a click */ }
       </div>
       <Indicator lastGuess={lastGuess} />

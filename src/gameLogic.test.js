@@ -34,6 +34,13 @@ describe('tests without db', () => {
       },
     };
 
+    const imageData = {
+      src: 'fake.png',
+      width: 400,
+      height: 400,
+      scale: 0.5,
+    };
+
     const makeDoc = (key, obj) => {
       const id = key;
       const data = () => ({ ...obj });
@@ -42,7 +49,7 @@ describe('tests without db', () => {
     };
 
     // collection.mockReturnValue(42);
-    getDoc.mockResolvedValue(makeDoc('image', { src: 'fake.png' }));
+    getDoc.mockResolvedValue(makeDoc('image', imageData));
     getDocs.mockResolvedValue([makeDoc('char-1', chars['char-1']), makeDoc('char-2', chars['char-2'])]);
     getDownloadURL.mockResolvedValue('fake.png');
 
@@ -53,23 +60,23 @@ describe('tests without db', () => {
   it('successful targeting', async () => {
     const { gameManager } = await setUp();
 
-    const result = await gameManager.checkTarget('char-1', { x: 22, y: 44 });
+    const result = await gameManager.checkTarget('char-1', { x: 11, y: 22 });
     expect(result).toBe(true);
   });
 
   it('missed target', async () => {
     const { gameManager } = await setUp();
 
-    const result = await gameManager.checkTarget('char-2', { x: 22, y: 44 });
+    const result = await gameManager.checkTarget('char-2', { x: 11, y: 22 });
     expect(result).toBe(false);
   });
 
   it('find all targets', async () => {
     const { gameManager } = await setUp();
 
-    await gameManager.checkTarget('char-1', { x: 22, y: 44 });
+    await gameManager.checkTarget('char-1', { x: 11, y: 22 });
     const firstStatus = await gameManager.isGameOver();
-    await gameManager.checkTarget('char-2', { x: 22, y: 10 });
+    await gameManager.checkTarget('char-2', { x: 11, y: 6 });
     const secondStatus = await gameManager.isGameOver();
 
     expect(firstStatus).toBe(false);
@@ -77,8 +84,8 @@ describe('tests without db', () => {
   });
 
   it('has the image and characters', async () => {
-    const { imageSrc, characters } = await setUp();
-    expect(imageSrc).toEqual('fake.png');
+    const { imageData, characters } = await setUp();
+    expect(imageData.imageSrc).toEqual('fake.png');
     expect(characters['char-1'].label).toEqual('mike');
   });
 });

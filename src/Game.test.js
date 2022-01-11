@@ -34,7 +34,7 @@ describe('interact with game', () => {
     checkTarget = jest.fn((targetKey, mouse) => Promise.resolve(true));
     gameLogic.loadResources.mockImplementation((levelKey) => Promise.resolve({
       characters: getChars(),
-      imageSrc: 'test.jpg',
+      imageData: { imageSrc: 'test.jpg', scale: 0.5 },
       gameManager: {
         checkTarget,
         isGameOver: jest.fn().mockResolvedValue(false),

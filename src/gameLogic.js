@@ -50,15 +50,22 @@ async function loadResources(levelKey) {
   const myCharacters = {};
   const uiCharacters = {};
   const imagePromises = [];
-  const returnObj = {};
+  const imageObj = {};
 
   // probably could do a concurrent access, but leave it sequential
   const imageDoc = doc(db, 'levels', levelKey);
   const imageData = await getDoc(imageDoc);
-  imagePromises[0] = getDownloadURL(ref(storage, imageData.data().src));
-  imagePromises[0].then((url) => { returnObj.imageSrc = url; });
+  const {
+    srcWidth, srcHeight, scale, src,
+  } = imageData.data();
+  imageObj.srcWidth = srcWidth;
+  imageObj.srcHeight = srcHeight;
+  imageObj.scale = scale;
 
-  const querySnapshot = await getDocs(collection(imageDoc, 'data'));
+  imagePromises[0] = getDownloadURL(ref(storage, src));
+  imagePromises[0].then((url) => { imageObj.imageSrc = url; });
+
+  const querySnapshot = await getDocs(collection(imageDoc, 'characters'));
   let count = 0;
   querySnapshot.forEach((entry) => {
     const { id } = entry;
@@ -66,19 +73,25 @@ async function loadResources(levelKey) {
       x, y, width, height, name,
     } = entry.data();
     myCharacters[id] = {
-      xMin: x, yMin: y, xMax: x + width, yMax: y + height, index: count,
+      xMin: x * scale,
+      yMin: y * scale,
+      xMax: (x + width) * scale,
+      yMax: (y + height) * scale,
+      index: count,
     };
     uiCharacters[id] = { label: name };
-    imagePromises[1] = getDownloadURL(ref(storage, imageData.data().src));
-    imagePromises[1].then((url) => { uiCharacters[id].src = url; });
+    imagePromises[count] = getDownloadURL(ref(storage, entry.data().src));
+    imagePromises[count].then((url) => { uiCharacters[id].src = url; });
     count += 1;
   });
 
   await Promise.all(imagePromises);
-  returnObj.characters = uiCharacters;
-  returnObj.gameManager = gameManager(myCharacters, count);
 
-  return Promise.resolve(returnObj);
+  return Promise.resolve({
+    characters: uiCharacters,
+    gameManager: gameManager(myCharacters, count),
+    imageData: imageObj,
+  });
 }
 
 export default { initializeGameDB, loadResources };

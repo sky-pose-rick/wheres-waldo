@@ -6,7 +6,7 @@ import Game from './Game';
 function App() {
   return (
     <div className="App">
-      <Game levelKey="xZCI4OZxdhB3vFUdudsv" />
+      <Game levelKey="uVqmWvIDoroPZnn6MYg2" />
     </div>
   );
 }
