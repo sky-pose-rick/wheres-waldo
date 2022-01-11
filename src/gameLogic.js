@@ -1,5 +1,5 @@
 import {
-  getFirestore, collection, doc, getDoc, getDocs,
+  getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc,
 } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
@@ -24,7 +24,7 @@ function checkGameOver(founds) {
   return founds.every((value) => value);
 }
 
-function gameManager(characters, size) {
+function gameManager(characters, size, sessionRef) {
   const founds = [];
   for (let i = 0; i < size; i += 1) {
     founds[i] = false;
@@ -43,7 +43,21 @@ function gameManager(characters, size) {
     return Promise.resolve(result);
   };
 
-  return { isGameOver, checkTarget };
+  const startTimer = async () => {
+    await setDoc(sessionRef, {
+      start: Date.now(),
+    }, { merge: true });
+  };
+  const stopTimer = async () => {
+    await setDoc(sessionRef, {
+      stop: Date.now(),
+    }, { merge: true });
+  };
+  const getSessionKey = () => sessionRef.id;
+
+  return {
+    isGameOver, checkTarget, startTimer, stopTimer, getSessionKey,
+  };
 }
 
 async function loadResources(levelKey) {
@@ -53,6 +67,7 @@ async function loadResources(levelKey) {
   const imageObj = {};
 
   // probably could do a concurrent access, but leave it sequential
+  // load main level data
   const imageDoc = doc(db, 'levels', levelKey);
   const imageData = await getDoc(imageDoc);
   const {
@@ -65,6 +80,7 @@ async function loadResources(levelKey) {
   imagePromises[0] = getDownloadURL(ref(storage, src));
   imagePromises[0].then((url) => { imageObj.imageSrc = url; });
 
+  // load info about each character
   const querySnapshot = await getDocs(collection(imageDoc, 'characters'));
   let count = 0;
   querySnapshot.forEach((entry) => {
@@ -85,11 +101,17 @@ async function loadResources(levelKey) {
     count += 1;
   });
 
+  // create a session entry
+  const sessionRef = await addDoc(collection(db, 'sessions'), {
+    level: levelKey,
+    redeemed: false,
+  });
+
   await Promise.all(imagePromises);
 
   return Promise.resolve({
     characters: uiCharacters,
-    gameManager: gameManager(myCharacters, count),
+    gameManager: gameManager(myCharacters, count, sessionRef),
     imageData: imageObj,
   });
 }

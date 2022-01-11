@@ -38,6 +38,9 @@ describe('interact with game', () => {
       gameManager: {
         checkTarget,
         isGameOver: jest.fn().mockResolvedValue(false),
+        startTimer: jest.fn().mockResolvedValue(1000),
+        stopTimer: jest.fn().mockResolvedValue(3000),
+        getSessionKey: jest.fn().mockReturnValue('fake key'),
       },
     }));
     await act(async () => render(<Game levelKey="fake key" />));

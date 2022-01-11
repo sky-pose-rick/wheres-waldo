@@ -1,20 +1,13 @@
-import { getDocs, getDoc } from 'firebase/firestore';
+import {
+  getDocs, getDoc, addDoc, setDoc,
+} from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
 
 import gameLogic from './gameLogic';
 
-jest.mock('firebase/firestore', () => ({
-  collection: jest.fn(),
-  doc: jest.fn(),
-  getDoc: jest.fn(),
-  getDocs: jest.fn(),
-}));
+jest.mock('firebase/firestore');
 
-jest.mock('firebase/storage', () => ({
-  getStorage: jest.fn(),
-  ref: jest.fn(),
-  getDownloadURL: jest.fn(),
-}));
+jest.mock('firebase/storage');
 
 describe('tests without db', () => {
   async function setUp() {

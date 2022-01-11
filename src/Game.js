@@ -42,6 +42,7 @@ function Game({ levelKey }) {
       setImageData(result.imageData);
       setGameManager(result.gameManager);
       setTimerStart(true);
+      result.gameManager.startTimer();
     });
   }, []);
 
@@ -57,7 +58,12 @@ function Game({ levelKey }) {
         setCharacters(copy);
       }
       gameManager.isGameOver().then((gameOver) => {
-        if (gameOver) { alert('game is won'); }
+        if (gameOver) {
+          gameManager.stopTimer();
+          alert('game is won');
+          // navigate to results page
+          const sessionKey = gameManager.getSessionKey();
+        }
       });
     });
   };
