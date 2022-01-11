@@ -1,6 +1,6 @@
-import {
-  getDocs, getDoc,
-} from 'firebase/firestore';
+import { getDocs, getDoc } from 'firebase/firestore';
+import { getDownloadURL } from 'firebase/storage';
+
 import gameLogic from './gameLogic';
 
 jest.mock('firebase/firestore', () => ({
@@ -10,21 +10,27 @@ jest.mock('firebase/firestore', () => ({
   getDocs: jest.fn(),
 }));
 
+jest.mock('firebase/storage', () => ({
+  getStorage: jest.fn(),
+  ref: jest.fn(),
+  getDownloadURL: jest.fn(),
+}));
+
 describe('tests without db', () => {
   async function setUp() {
     const chars = {
       'char-1': {
-        xMin: 20,
-        xMax: 25,
-        yMin: 40,
-        yMax: 45,
+        x: 20,
+        width: 5,
+        y: 40,
+        height: 5,
         name: 'mike',
       },
       'char-2': {
-        xMin: 20,
-        xMax: 25,
-        yMin: 10,
-        yMax: 15,
+        x: 20,
+        width: 5,
+        y: 10,
+        height: 5,
       },
     };
 
@@ -38,6 +44,7 @@ describe('tests without db', () => {
     // collection.mockReturnValue(42);
     getDoc.mockResolvedValue(makeDoc('image', { src: 'fake.png' }));
     getDocs.mockResolvedValue([makeDoc('char-1', chars['char-1']), makeDoc('char-2', chars['char-2'])]);
+    getDownloadURL.mockResolvedValue('fake.png');
 
     const resources = await gameLogic.loadResources('my-key');
     return Promise.resolve(resources);
