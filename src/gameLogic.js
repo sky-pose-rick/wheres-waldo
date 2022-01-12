@@ -61,6 +61,7 @@ function gameManager(characters, size, sessionRef) {
 }
 
 async function loadResources(levelKey) {
+  if (!db) { console.error('DB not loaded'); }
   const myCharacters = {};
   const uiCharacters = {};
   const imagePromises = [];
@@ -96,8 +97,8 @@ async function loadResources(levelKey) {
       index: count,
     };
     uiCharacters[id] = { label: name };
-    imagePromises[count] = getDownloadURL(ref(storage, entry.data().src));
-    imagePromises[count].then((url) => { uiCharacters[id].src = url; });
+    imagePromises[count + 1] = getDownloadURL(ref(storage, entry.data().src));
+    imagePromises[count + 1].then((url) => { uiCharacters[id].src = url; });
     count += 1;
   });
 

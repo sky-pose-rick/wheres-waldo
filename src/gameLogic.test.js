@@ -1,5 +1,5 @@
 import {
-  getDocs, getDoc, addDoc, setDoc,
+  getDocs, getDoc, addDoc, setDoc, getFirestore,
 } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
 
@@ -45,7 +45,9 @@ describe('tests without db', () => {
     getDoc.mockResolvedValue(makeDoc('image', imageData));
     getDocs.mockResolvedValue([makeDoc('char-1', chars['char-1']), makeDoc('char-2', chars['char-2'])]);
     getDownloadURL.mockResolvedValue('fake.png');
+    getFirestore.mockReturnValue('fake db');
 
+    gameLogic.initializeGameDB('fake app');
     const resources = await gameLogic.loadResources('my-key');
     return Promise.resolve(resources);
   }
