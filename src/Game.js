@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 
-import propTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import Timer from './components/Timer';
 import Target from './Target';
 import Marker from './Marker';
@@ -10,7 +10,7 @@ import Characters from './Characters';
 import Indicator from './Indicator';
 import gameLogic from './gameLogic';
 
-function Game({ levelKey }) {
+function Game() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [targetOpen, setTargetOpen] = useState(false);
   const [characters, setCharacters] = useState({});
@@ -19,6 +19,7 @@ function Game({ levelKey }) {
   const [imageData, setImageData] = useState({});
   const [gameManager, setGameManager] = useState({});
   const [lastGuess, setLastGuess] = useState({});
+  const { levelKey } = useParams();
 
   const onClick = (e) => {
     if (!targetOpen) {
@@ -37,6 +38,7 @@ function Game({ levelKey }) {
   };
 
   useEffect(() => {
+    // TODO: redirect if no level loaded
     gameLogic.loadResources(levelKey).then((result) => {
       setCharacters(result.characters);
       setImageData(result.imageData);
@@ -91,9 +93,5 @@ function Game({ levelKey }) {
     </div>
   );
 }
-
-Game.propTypes = {
-  levelKey: propTypes.string.isRequired,
-};
 
 export default Game;
