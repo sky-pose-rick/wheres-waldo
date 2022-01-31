@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Timer from './components/Timer';
 import Target from './Target';
 import Marker from './Marker';
@@ -20,6 +20,7 @@ function Game() {
   const [gameManager, setGameManager] = useState({});
   const [lastGuess, setLastGuess] = useState({});
   const { levelKey } = useParams();
+  const navigate = useNavigate();
 
   const onClick = (e) => {
     if (!targetOpen) {
@@ -65,6 +66,7 @@ function Game() {
           alert('game is won');
           // navigate to results page
           const sessionKey = gameManager.getSessionKey();
+          navigate(`/result/${sessionKey}`);
         }
       });
     });

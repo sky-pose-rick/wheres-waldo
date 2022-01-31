@@ -1,10 +1,12 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import { useNavigate, useParams } from 'react-router-dom';
 import Game from './Game';
 import gameLogic from './gameLogic';
 
 jest.mock('./gameLogic');
+jest.mock('react-router-dom');
 
 /* it('renders without crash', async () => {
   await render(<Game />);
@@ -43,6 +45,7 @@ describe('interact with game', () => {
         getSessionKey: jest.fn().mockReturnValue('fake key'),
       },
     }));
+    useParams.mockImplementation(() => ({ levelKey: 'fakeKey' }));
     await act(async () => render(<Game levelKey="fake key" />));
   });
 
