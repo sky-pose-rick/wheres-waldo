@@ -10,10 +10,18 @@ function Indicator({ lastGuess }) {
     if (lastGuess.timestamp) {
       if (timeoutId) { clearTimeout(timeoutId); }
       setShow(true);
-      setTimeoutId(setTimeout(() => {
+      const latestId = setTimeout(() => {
         setShow(false);
-      }, 2000));
+      }, 2000);
+      setTimeoutId(latestId);
+
+      // clear this id if component is unloaded
+      return () => {
+        clearTimeout(latestId);
+      };
     }
+
+    return () => {};
   }, [lastGuess.timestamp]);
 
   return (
