@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Game from './Game';
+import Result from './Result';
 import Home from './Home';
 import NavBar from './NavBar';
 
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/play/:levelKey" element={<Game />} />
+        <Route path="/result/:sessionKey" element={<Result />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
