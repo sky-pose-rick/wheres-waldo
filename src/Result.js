@@ -8,6 +8,7 @@ function Result() {
   const [stats, setStats] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { sessionKey } = useParams();
+  const maxRank = 20;
 
   useEffect(() => {
     resultLogic.loadResources(sessionKey).then((result) => {
@@ -34,10 +35,13 @@ function Result() {
       {!stats.isInvalid && !stats.isDupe && !isSubmitted && (
       <div>
         <span>
-          Your time was
-          {' '}
-          {stats.scoreString}
+          {`Your time was ${stats.scoreString}`}
         </span>
+        <span>
+          {`Your rank on ${stats.levelName} is `}
+          {stats.ranking <= maxRank ? `#${stats.ranking}` : `worse than #${maxRank + 1}.`}
+        </span>
+        <span>Submit your time to the leaderboards:</span>
         { /* eslint-disable-next-line jsx-a11y/label-has-associated-control */ }
         <label htmlFor="username">Username</label>
         <input type="text" id="username" value={username} onChange={onChange} />
