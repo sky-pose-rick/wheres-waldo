@@ -18,19 +18,27 @@ function makeScoreString(score) {
 
 function makeResultManager(score, sessionKey, sessionDoc, highScoreRef) {
   const submitScore = async (username) => {
-    // don't care if highscore doc gets rejected
-    // cheaters get what they deserve
-    await setDoc(sessionDoc, {
-      redeemed: true,
-    }, { merge: true });
-
     // firestore rules need to be able to locate the session
-    // will need to attach a session to highscore entries
-    await addDoc(highScoreRef, {
-      session: sessionKey,
-      score,
-      name: username,
-    });
+    // will need to attach a session to highscore
+    try {
+      await addDoc(highScoreRef, {
+        session: sessionKey,
+        score,
+        name: username,
+      });
+    } catch (e) {
+      console.error('Highscore submission fail:', e);
+      // don't redeem if highscore fails
+      return;
+    }
+
+    try {
+      await setDoc(sessionDoc, {
+        redeemed: true,
+      }, { merge: true });
+    } catch (e) {
+      console.error('Session redemption fail:', e);
+    }
   };
 
   return { submitScore };
@@ -75,7 +83,19 @@ async function loadResources(sessionKey) {
   //  query for any 20 scores better than this one, iterate to determine if rank is 20 or better
   const highScoreColl = collection(db, 'levels', level, 'highscores');
   const highscoreQuery = query(highScoreColl, where('score', '<', score), limit(20));
-  const highscoreSnapshot = await getDocs(highscoreQuery);
+  let highscoreSnapshot;
+  try {
+    highscoreSnapshot = await getDocs(highscoreQuery);
+  } catch {
+    console.error('failed to retrieve highscores');
+    return {
+      resultManager: {},
+      resultStats: {
+        isInvalid: true,
+      },
+    };
+  }
+
   let ranking = 1;
   highscoreSnapshot.forEach(() => {
     ranking += 1;

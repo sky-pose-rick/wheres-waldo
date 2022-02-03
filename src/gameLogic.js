@@ -44,14 +44,22 @@ function gameManager(characters, size, sessionRef) {
   };
 
   const startTimer = async () => {
-    await setDoc(sessionRef, {
-      start: Date.now(),
-    }, { merge: true });
+    try {
+      await setDoc(sessionRef, {
+        start: Date.now(),
+      }, { merge: true });
+    } catch (e) {
+      console.error('Game Start: failed to update session', e);
+    }
   };
   const stopTimer = async () => {
-    await setDoc(sessionRef, {
-      stop: Date.now(),
-    }, { merge: true });
+    try {
+      await setDoc(sessionRef, {
+        stop: Date.now(),
+      }, { merge: true });
+    } catch (e) {
+      console.error('Game End: failed to update session', e);
+    }
   };
   const getSessionKey = () => sessionRef.id;
 
