@@ -58,6 +58,15 @@ async function loadResources(sessionKey) {
   // get the session
   const sessionDoc = doc(db, 'sessions', sessionKey);
   const sessionData = await getDoc(sessionDoc);
+  if (!sessionData.data()) {
+    console.error('Session not found');
+    return {
+      resultManager: {},
+      resultStats: {
+        isInvalid: true,
+      },
+    };
+  }
   const {
     start, stop, level, redeemed,
   } = sessionData.data();
@@ -86,8 +95,8 @@ async function loadResources(sessionKey) {
   let highscoreSnapshot;
   try {
     highscoreSnapshot = await getDocs(highscoreQuery);
-  } catch {
-    console.error('failed to retrieve highscores');
+  } catch (e) {
+    console.error('Failed to retrieve highscores:', e);
     return {
       resultManager: {},
       resultStats: {
