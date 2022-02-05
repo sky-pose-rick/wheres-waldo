@@ -21,7 +21,7 @@ function NavBar() {
 
   return (
     <NavDiv>
-      <nav><NavLink to="/">{navString}</NavLink></nav>
+      <nav><NavLink to="/wheres-waldo">{navString}</NavLink></nav>
     </NavDiv>
   );
 }

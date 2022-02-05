@@ -73,7 +73,7 @@ function Game() {
           alert('You win!');
           // navigate to results page
           const sessionKey = gameManager.getSessionKey();
-          navigate(`/result/${sessionKey}`);
+          navigate(`/wheres-waldo/result/${sessionKey}`);
         }
       });
     });

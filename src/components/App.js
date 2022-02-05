@@ -15,9 +15,9 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/play/:levelKey" element={<Game />} />
-        <Route path="/result/:sessionKey" element={<Result />} />
+        <Route path="/wheres-waldo" element={<Home />} />
+        <Route path="/wheres-waldo/play/:levelKey" element={<Game />} />
+        <Route path="/wheres-waldo/result/:sessionKey" element={<Result />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>

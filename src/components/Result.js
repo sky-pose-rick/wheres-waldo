@@ -63,7 +63,7 @@ function Result() {
         )}
         {!stats.isInvalid && !stats.isDupe
         && isSubmitted && <p>Your score has been submitted.</p>}
-        <Link to="/">Back to Level Select</Link>
+        <Link to="/wheres-waldo">Back to Level Select</Link>
       </div>
       )}
     </ResultDiv>
