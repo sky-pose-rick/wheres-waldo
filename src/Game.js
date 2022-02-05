@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
+import style from 'styled-components';
 
 import { useParams, useNavigate } from 'react-router-dom';
 import Timer from './components/Timer';
@@ -9,6 +10,12 @@ import Marker from './Marker';
 import Characters from './Characters';
 import Indicator from './Indicator';
 import gameLogic from './gameLogic';
+
+const GameDiv = style.div`{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}`;
 
 function Game() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -73,7 +80,7 @@ function Game() {
   };
 
   return (
-    <div className="Game">
+    <GameDiv>
       { /* should only render timer once all images are loaded */ }
       {timerStart && <Timer />}
       <div className="ImageContainer">
@@ -92,7 +99,7 @@ function Game() {
       </div>
       <Indicator lastGuess={lastGuess} />
       <Characters chars={characters} />
-    </div>
+    </GameDiv>
   );
 }
 

@@ -9,7 +9,7 @@ function Target(props) {
   } = props;
 
   // validate data when using in-line styles
-  const style = { top: pos.y || 0, left: pos.x || 0 };
+  const style = { top: pos.y - 30 || 0, left: pos.x - 30 || 0 };
 
   const targetsToShow = Object.entries(chars).filter((entry) => !entry[1].found);
 

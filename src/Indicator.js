@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
+import style from 'styled-components';
+
+const IndicatorDiv = style.div`{
+  & span{
+    font-size: 1.1em;
+    background: #baf0b8;
+    padding: 0 3em;
+    color: green;
+  }
+
+  & span.miss{
+    color: red;
+    background: #c89292;
+  }
+}`;
 
 function Indicator({ lastGuess }) {
   const [show, setShow] = useState(false);
@@ -25,7 +40,7 @@ function Indicator({ lastGuess }) {
   }, [lastGuess.timestamp]);
 
   return (
-    <div className="Indicator">
+    <IndicatorDiv>
       {show && (
       <span
         className={lastGuess.correct ? 'hit' : 'miss'}
@@ -33,7 +48,7 @@ function Indicator({ lastGuess }) {
         {lastGuess.correct ? 'Hit!' : 'Miss!'}
       </span>
       )}
-    </div>
+    </IndicatorDiv>
   );
 }
 

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import style from 'styled-components';
+
+const TimerDiv = style.div`{
+  & span{
+    font-size: 1.1em;
+    background: aliceblue;
+    padding: 0 3em;
+  }
+}`;
 
 function Timer() {
   const [start] = useState(new Date());
@@ -20,9 +29,9 @@ function Timer() {
   const timeString = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
   return (
-    <div className="Timer">
+    <TimerDiv>
       <span>{timeString}</span>
-    </div>
+    </TimerDiv>
   );
 }
 
