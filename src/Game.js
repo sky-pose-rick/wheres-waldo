@@ -70,7 +70,7 @@ function Game() {
       gameManager.isGameOver().then((gameOver) => {
         if (gameOver) {
           gameManager.stopTimer();
-          alert('game is won');
+          alert('You win!');
           // navigate to results page
           const sessionKey = gameManager.getSessionKey();
           navigate(`/result/${sessionKey}`);
