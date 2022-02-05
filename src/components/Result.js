@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import style from 'styled-components';
-import resultLogic from './resultLogic';
+import resultLogic from '../resultLogic';
 
 const ResultDiv = style.div`{
   text-align:center;

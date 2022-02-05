@@ -4,12 +4,12 @@ import React, { useState, useEffect } from 'react';
 import style from 'styled-components';
 
 import { useParams, useNavigate } from 'react-router-dom';
-import Timer from './components/Timer';
+import Timer from './Timer';
 import Target from './Target';
 import Marker from './Marker';
 import Characters from './Characters';
 import Indicator from './Indicator';
-import gameLogic from './gameLogic';
+import gameLogic from '../gameLogic';
 
 const GameDiv = style.div`{
   display: flex;

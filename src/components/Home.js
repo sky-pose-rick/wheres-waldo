@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import style from 'styled-components';
-import homeLogic from './homeLogic';
+import homeLogic from '../homeLogic';
 
 const HomeUL = style.ul`{
   list-style: none;

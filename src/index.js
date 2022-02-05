@@ -6,7 +6,7 @@ import homeLogic from './homeLogic';
 import resultLogic from './resultLogic';
 import getFirebaseConfig from './firebaseConfig';
 import './index.css';
-import App from './App';
+import App from './components/App';
 
 document.title = 'Where\'s Waldo';
 
