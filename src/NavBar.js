@@ -1,11 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import style from 'styled-components';
+
+const NavDiv = style.div`
+  background: gray;
+  font-size: 3em;
+`;
+
+const NavLink = style(Link)`
+  color: black;
+  text-decoration-line:none;
+  margin-left: 10%;
+  &:hover{
+    color: #444;
+  }
+  `;
 
 function NavBar() {
+  const navString = 'Where\'s Waldo';
+
   return (
-    <div className="NavBar">
-      <nav><Link to="/">Where&#39s Waldo</Link></nav>
-    </div>
+    <NavDiv>
+      <nav><NavLink to="/">{navString}</NavLink></nav>
+    </NavDiv>
   );
 }
 

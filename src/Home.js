@@ -1,6 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import style from 'styled-components';
 import homeLogic from './homeLogic';
+
+const HomeUL = style.ul`{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  & li{
+    margin: 0.2em;
+  }
+  & li div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  & table {
+    background: white;
+    border: 2px black solid;
+    margin: auto;
+  }
+  & thead {
+    text-align: center;
+  }
+}`;
+
+const HomeLink = style(Link)`{
+  color: black;
+  text-decoration-line: none;
+  border: solid 5px #57ffab;
+  font-size: 2em;
+  background-color: #569565;
+  padding: 0.3em 0.3em;
+  width: 10em;
+  text-align: center;
+}`;
+
+const TimeCol = style.td`{
+  text-align:right;
+}`;
 
 function Home() {
   const [levels, setLevels] = useState([]);
@@ -32,9 +72,9 @@ function Home() {
         <td>
           {score.name}
         </td>
-        <td>
+        <TimeCol>
           {score.score}
-        </td>
+        </TimeCol>
       </tr>
     );
   }
@@ -43,7 +83,7 @@ function Home() {
     return (
       <li key={level.key}>
         <div>
-          <Link to={`/play/${level.key}`}>{level.name}</Link>
+          <HomeLink to={`/play/${level.key}`}>{level.name}</HomeLink>
           <button type="button" onClick={() => toggleVisible(index)}>Toggle Score</button>
         </div>
         {level.visible && (
@@ -66,12 +106,12 @@ function Home() {
   }
 
   return (
-    <div className="Home">
-      <ul>
+    <div>
+      <HomeUL>
         {
           levels.map((level, index) => makeLevel(level, index))
         }
-      </ul>
+      </HomeUL>
     </div>
   );
 }
