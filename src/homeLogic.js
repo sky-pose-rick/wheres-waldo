@@ -9,6 +9,13 @@ function initializeHomeDB() {
   db = getFirestore();
 }
 
+function makeScoreString(score) {
+  const seconds = Math.floor(score / 1000) % 60;
+  const minutes = Math.floor(score / 60000);
+  const timeString = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  return timeString;
+}
+
 async function loadResources() {
   if (!db) { console.error('DB not loaded'); }
   const levelPromises = [];
@@ -27,7 +34,7 @@ async function loadResources() {
           scoreArray.push({
             scoreKey: scoreDoc.id,
             name: scoreDoc.data().name,
-            score: scoreDoc.data().score,
+            score: makeScoreString(scoreDoc.data().score),
           });
         });
 
