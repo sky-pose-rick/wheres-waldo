@@ -89,7 +89,7 @@ function Home() {
     return (
       <li key={level.key}>
         <div>
-          <HomeLink to={`/play/${level.key}`}>{level.name}</HomeLink>
+          <HomeLink to={`/wheres-waldo/play/${level.key}`}>{level.name}</HomeLink>
           <button type="button" onClick={() => toggleVisible(index)}>Toggle Score</button>
         </div>
         {level.visible && (
