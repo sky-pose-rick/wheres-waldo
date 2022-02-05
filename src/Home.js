@@ -18,12 +18,15 @@ const HomeUL = style.ul`{
     align-items: center;
   }
   & table {
-    background: white;
-    border: 2px black solid;
+    background: black;
     margin: auto;
   }
   & thead {
     text-align: center;
+    background: gray
+  }
+  & tbody {
+    background: white;
   }
 }`;
 
@@ -66,9 +69,12 @@ function Home() {
     setLevels(arrayCopy);
   }
 
-  function makeScore(score) {
+  function makeScore(score, rank) {
     return (
       <tr key={score.scoreKey}>
+        <td>
+          {rank}
+        </td>
         <td>
           {score.name}
         </td>
@@ -90,13 +96,14 @@ function Home() {
         <table key={`${level.key}-table`}>
           <thead>
             <tr>
+              <th>Rank</th>
               <th>Name</th>
               <th>Score</th>
             </tr>
           </thead>
           <tbody>
             {
-              level.scores.map((score) => makeScore(score))
+              level.scores.map((score, scoreIndex) => makeScore(score, scoreIndex + 1))
             }
           </tbody>
         </table>
