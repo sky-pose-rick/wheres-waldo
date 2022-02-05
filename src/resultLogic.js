@@ -10,8 +10,8 @@ function initializeResultDB() {
 }
 
 function makeScoreString(score) {
-  const seconds = Math.floor(score / 1000);
-  const minutes = Math.floor(seconds / 60);
+  const seconds = Math.floor(score / 1000) % 60;
+  const minutes = Math.floor(score / 60000);
   const timeString = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   return timeString;
 }
