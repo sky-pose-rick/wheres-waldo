@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import {
-  BrowserRouter, Route, Routes,
+  HashRouter, Route, Routes,
 } from 'react-router-dom';
 
 import Game from './Game';
@@ -12,7 +12,7 @@ import NavBar from './NavBar';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <NavBar />
       <Routes>
         <Route path="/wheres-waldo" element={<Home />} />
@@ -20,7 +20,7 @@ function App() {
         <Route path="/wheres-waldo/result/:sessionKey" element={<Result />} />
         <Route path="*" element={<Home />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
